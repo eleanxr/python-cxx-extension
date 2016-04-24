@@ -4,11 +4,12 @@
 
 static PyObject * print_hello(PyObject * self, PyObject * args) {
     std::cout << "Hello from C++." << std::endl;
-    return NULL;
+    Py_RETURN_NONE;
 }
 
 static PyMethodDef ExtensionMethods[] = {
-    {"print_hello", print_hello, METH_VARARGS, "Say hello"},
+    {"print_hello", print_hello, METH_NOARGS, "Say hello"},
+    {NULL, NULL, 0, NULL},
 };
 
 static struct PyModuleDef extensionmodule = {
@@ -19,6 +20,10 @@ static struct PyModuleDef extensionmodule = {
     ExtensionMethods,
 };
 
+extern "C" {
+
 PyMODINIT_FUNC PyInit_extension() {
     return PyModule_Create(&extensionmodule);
+}
+
 }
